@@ -18,5 +18,14 @@ anova <- aov(mass ~ sex, data = chaff2)
 summary(anova)
 #there is a significant difference in mass between sexes
 
+#create a box and whisker figure from chaff2 dataset
+library(ggplot2)
+chaff2 %>% ggplot(aes(x = sex, y = mass)) +
+  geom_boxplot()
+
+
+
+
+
 
 
