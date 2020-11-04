@@ -42,14 +42,20 @@ chaff3 <- gather(chaff, key = sex, mass)
 ```
 
 ```{r ss-x}
-sum_sq <- function(df, measure) {
-  df %>% summarise(ss = sum(({{measure}} - mean({{measure}}))^2))
+sum_sq <- function(df, measure, group) {
+  df %>% group_by({{ group }}) %>% 
+    summarise(ss = sum(({{measure}} - mean({{measure}}))^2))
 }
 
-sum_sq(chaff3, mass)
+sum_sq(chaff3, mass, sex)
 ```
 ``` {r summ}
 chaff3_summary <- chaff3 %>% 
   group_by(sex) %>% 
-  summarise(mean_mass = mean(mass))
+  summarise(mean_chaff = mean(mass),
+            sd_chaff = sd(mass),
+            se_chaff = sd(mass)/sqrt(length(mass)),
+            sample_size = length(mass))
+
 ```
+
