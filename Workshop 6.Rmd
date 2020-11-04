@@ -1,0 +1,55 @@
+---
+title: "main.Rmd"
+author: "Holly Smith"
+date: "04/11/2020"
+output:
+  bookdown::pdf_document3: default
+  bookdown::word_document3: default
+  bookdown::html_document3: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,  warning = FALSE,
+                      message = FALSE,
+                      fig.retina = 3)
+#default code
+```
+
+```{r packages}
+library(tidyverse)
+
+```
+#Introduction
+Here is my intro.
+
+#Methods
+My methods section.
+
+#Results
+
+#Discussion
+
+```{r import}
+#import dataset
+chaff <- read.table("raw_data/chaff.txt", header = TRUE)
+
+```
+
+```{r tidy}
+#tidy data
+library(tidyverse)
+chaff3 <- gather(chaff, key = sex, mass)
+```
+
+```{r ss-x}
+sum_sq <- function(df, measure) {
+  df %>% summarise(ss = sum(({{measure}} - mean({{measure}}))^2))
+}
+
+sum_sq(chaff3, mass)
+```
+``` {r summ}
+chaff3_summary <- chaff3 %>% 
+  group_by(sex) %>% 
+  summarise(mean_mass = mean(mass))
+```
